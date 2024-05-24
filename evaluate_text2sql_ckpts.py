@@ -2,7 +2,7 @@ import argparse
 import os
 import json
 
-from text2sql import _test
+from cosql import _test
 
 def parse_option():
     parser = argparse.ArgumentParser("command line arguments for selecting the best ckpt.")
