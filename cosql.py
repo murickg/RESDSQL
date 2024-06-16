@@ -14,10 +14,9 @@ from transformers import T5TokenizerFast, T5ForConditionalGeneration, MT5ForCond
 from transformers.optimization import Adafactor
 from transformers.trainer_utils import set_seed
 from utils.spider_metric.evaluator import EvaluateTool
-from utils.load_dataset import CoSQLDataset
+from utils.load_dataset import CoSQLDataset, Text2SQLDataset
 from utils.text2sql_decoding_utils import decode_sqls, decode_natsqls
 
-#TODO анализ утилиты для оценки чекпоинтов
 def parse_option():
     parser = argparse.ArgumentParser("command line arguments for fine-tuning pre-trained language model.")
 
@@ -93,7 +92,7 @@ def _train(opt):
     if isinstance(text2sql_tokenizer, T5TokenizerFast):
         text2sql_tokenizer.add_tokens([AddedToken(" <="), AddedToken(" <")])
 
-    train_dataset = CoSQLDataset(
+    train_dataset = Text2SQLDataset(
         dir_=opt.train_filepath,
         mode="train"
     )
@@ -251,7 +250,7 @@ def _test(opt):
     if isinstance(tokenizer, T5TokenizerFast):
         tokenizer.add_tokens([AddedToken(" <="), AddedToken(" <")])
 
-    dev_dataset = CoSQLDataset(
+    dev_dataset = Text2SQLDataset(
         dir_=opt.dev_filepath,
         mode=opt.mode
     )
